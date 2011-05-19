@@ -1,0 +1,105 @@
+Python module to access Mt Gox
+
+Quickstart Example:
+>>> mtgox = MtGox()
+>>> mtgox.ticker_data()
+{u'ticker': {u'sell': 7.1993999999999998,
+             u'buy': 7.1111000000000004,
+             u'last': 7.2000000000000002,
+             u'vol': 25053, u'high': 7.4649000000000001,
+             u'low': 6.5999999999999996}}
+>>> mtgox.authenticate("null@example.com", "password")
+>>> mtgox.buy(1, .05)
+{u'status': u"<br>Your entire order can't be filled at that price. What remains is stored in your open orders.",
+ u'btcs': 0,
+ u'ticker': {u'high': 7.4649000000000001,
+             u'vol': 25110,
+             u'buy': 7.0999999999999996,
+             u'sell': 7.1980000000000004,
+             u'low': 6.5999999999999996},
+ u'orders': [{u'status': u'1',
+              u'price': 0.050000000000000003,
+              u'oid': u'479589',
+              u'dark': u'0',
+              u'amount': 1,
+              u'date': u'1305777683',
+              u'type': 2},
+             {u'status': u'2',
+              u'price': 190,
+              u'oid': u'337961',
+              u'dark': u'0',
+              u'amount': 1,
+              u'date': u'1305762420',
+              u'type': 1}
+            ],
+ u'usds': 221.38999999999999}
+
+Public methods (no account required):
+
+ticker_data():
+Returns ticker data.
+
+Sample response:
+    {u'ticker': {u'buy': 7.2500999999999998,
+                 u'high': 7.4649000000000001,
+                 u'last': 7.25,
+                 u'low': 6.5999999999999996,
+                 u'sell': 7.3399000000000001,
+                 u'vol': 24918}}
+
+market_depth():
+Returns book data.
+
+Sample response:
+    {u'asks': [[7.3399000000000001, 23.27],
+               [7.3399999999999999, 40.384],
+               [7.3499999999999996, 64.5],
+               [7.3899999999999997, 8],
+                ...
+               [11.949999999999999, 27.98],
+               [11.98, 47],
+               [12, 279.93000000000001]],
+     u'bids': [[7.2500999999999998, 6.8959999999999999],
+               [7.25, 44.387],
+               [7.2400000000000002, 4.3259999999999996],
+               [7.1500000000000004, 10],
+                ...
+               [5.2999999999999998, 57.448999999999998],
+               [5.25, 2],
+               [5.2300000000000004, 12.917999999999999]]}
+
+
+recent_trades():
+Returns recent trades.
+
+Sample data:
+    [{u'amount': 100,
+      u'date': 1305771703,
+      u'price': 6.9199999999999999,
+      u'tid': u'75653'},
+     {u'amount': 10,
+      u'date': 1305776226,
+      u'price': 7.3396999999999997,
+      u'tid': u'75767'},
+      ...
+      ...
+      ...,
+     {u'amount': 5,
+      u'date': 1305776171,
+      u'price': 7.3396999999999997,
+      u'tid': u'75766'},
+     {u'amount': 4.2999999999999998,
+      u'date': 1305776227,
+      u'price': 7.2500999999999998,
+      u'tid': u'75768'}]
+
+authenticate(username, password):
+Takes username and password args and sets credentials for the current MtGox() instance.
+
+Credentials required:
+
+funds -- Get current MtGox account balance
+buy -- Buy bitcoins.
+sell -- Sell bitcoins.
+open_orders -- get your current working orders.
+cancel -- cancel an existing order. Required args: oid (order id) and order_type (1 for sell, 2 for buy).
