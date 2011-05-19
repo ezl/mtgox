@@ -52,7 +52,11 @@ class MtGox(object):
     @authentication_required
     def buy(self, amount, price, postdict):
         """Place a buy order.
-           Returns list of your open orders"""
+
+           Returns list of your open orders
+
+        """
+
         api = "buyBTC.php"
         postdict.update(dict(amount=amount,
                              price=price))
@@ -61,7 +65,11 @@ class MtGox(object):
     @authentication_required
     def sell(self, amount, price, postdict):
         """Place a sell order.
-           Returns list of your open orders"""
+
+           Returns list of your open orders
+
+        """
+
         api = "sellBTC.php"
         postdict.update(dict(amount=amount,
                              price=price))
@@ -74,16 +82,23 @@ class MtGox(object):
         In response, these keys:
             oid:    Order ID
             type:   1 for sell order or 2 for buy order
-            status: 1 for active, 2 for not enough funds"""
+            status: 1 for active, 2 for not enough funds
+
+        """
+
         api = "getOrders.php"
         return self._curl_mtgox(api=api, postdict=postdict)
 
     @authentication_required
     def cancel(self, oid, order_type, postdict):
-        """
+        """Cancel an existing order.
+
            oid: Order ID
            type: 1 for sell order or 2 for buy order"""
         api = "cancelOrder.php"
+        postdict.update({'oid':  oid,
+                         'type': order_type,
+                        })
         return self._curl_mtgox(api=api, postdict=postdict)
 
     @authentication_required
@@ -103,5 +118,5 @@ class MtGox(object):
         else:
             request = urllib2.Request(url)
         response = urllib2.urlopen(request, timeout=timeout)
-        return response.read()
+        return json.loads(response.read())
 
