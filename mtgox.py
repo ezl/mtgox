@@ -11,20 +11,24 @@ class MtGox(object):
         self.password = password
 
 # Public methods
-    def get_ticker_data(self):
+    def ticker_data(self):
+        """Get ticker data"""
         api = "data/ticker.php"
         return self._curl_mtgox(api=api)
 
-    def get_market_depth(self):
+    def market_depth(self):
+        """Get market depth"""
         api = "data/getDepth.php"
         return self._curl_mtgox(api=api)
 
-    def get_recent_trades(self):
+    def recent_trades(self):
+        """Get recent trades"""
         api = "data/getTrades.php"
         return self._curl_mtgox(api=api)
 
 # Authentication required methods
     def authenticate(self, username, password):
+        """Set MtGox authentication information"""
         self.username = username
         self.password = password
 
@@ -34,37 +38,40 @@ class MtGox(object):
                 msg = "You must be authenticated to use this method"
                 raise Exception, msg
             else:
-                credentials = dict(username=self.username,
-                                   password=self.password)
+                credentials = {'name':self.username,
+                               'pass':self.password}
                 return function(self, postdict=credentials, *args, **kwargs)
         return wrapped
 
     @authentication_required
-    def get_funds(self, postdict):
-        """Get your current balance.
-
-           https://mtgox.com/code/getFunds.php?name=blah&pass=blah"""
+    def funds(self, postdict):
+        """Get your current balance."""
         api = "getFunds.php"
         return self._curl_mtgox(api=api, postdict=postdict)
 
     @authentication_required
-    def buy(self, quantity, price, postdict):
+    def buy(self, amount, price, postdict):
         """Place a buy order.
            Returns list of your open orders"""
         api = "buyBTC.php"
+        postdict.update(dict(amount=amount,
+                             price=price))
         return self._curl_mtgox(api=api, postdict=postdict)
 
     @authentication_required
-    def sell(self, quantity, price, postdict):
+    def sell(self, amount, price, postdict):
         """Place a sell order.
            Returns list of your open orders"""
         api = "sellBTC.php"
+        postdict.update(dict(amount=amount,
+                             price=price))
         return self._curl_mtgox(api=api, postdict=postdict)
 
     @authentication_required
-    def get_open_orders(self, postdict):
-        """
-        Returns:
+    def open_orders(self, postdict):
+        """Get open orders.
+
+        In response, these keys:
             oid:    Order ID
             type:   1 for sell order or 2 for buy order
             status: 1 for active, 2 for not enough funds"""
@@ -88,12 +95,10 @@ class MtGox(object):
         return self._curl_mtgox(api=api, postdict=postdict)
 
     def _curl_mtgox(self, api, postdict=None, timeout=8):
-        BASE_URL = "http://mtgox.com/code/"
+        BASE_URL = "https://mtgox.com/code/"
         url = BASE_URL + api
         if postdict:
-            print postdict
             postdata = urllib.urlencode(postdict)
-            print postdata
             request = urllib2.Request(url, postdata)
         else:
             request = urllib2.Request(url)
