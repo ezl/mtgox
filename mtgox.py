@@ -79,10 +79,10 @@ class MtGox(object):
     def open_orders(self, postdict):
         """Get open orders.
 
-        In response, these keys:
-            oid:    Order ID
-            type:   1 for sell order or 2 for buy order
-            status: 1 for active, 2 for not enough funds
+           In response, these keys:
+               oid:    Order ID
+               type:   1 for sell order or 2 for buy order
+               status: 1 for active, 2 for not enough funds
 
         """
 
@@ -94,7 +94,10 @@ class MtGox(object):
         """Cancel an existing order.
 
            oid: Order ID
-           type: 1 for sell order or 2 for buy order"""
+           type: 1 for sell order or 2 for buy order
+
+        """
+
         api = "cancelOrder.php"
         postdict.update({'oid':  oid,
                          'type': order_type,
@@ -103,9 +106,18 @@ class MtGox(object):
 
     @authentication_required
     def send(self, btca, amount, postdict, group1="BTC"):
-        """Not really sure what this does or what the 'group1' arg is for, just copying from the API.
+        """Send BTC to someone.
 
-           https://mtgox.com/code/withdraw.php?name=blah&pass=blah&group1=BTC&btca=bitcoin_address_to_send_to&amount=#"""
+           btca:     bitcoin address to send to
+           amount:   amount
+
+           Not really sure what this does or what the 'group1' arg is for,
+           just copying from the API.
+
+           https://mtgox.com/code/withdraw.php?name=blah&pass=blah&group1=BTC&btca=bitcoin_address_to_send_to&amount=#
+
+        """
+
         api = "withdraw.php"
         return self._curl_mtgox(api=api, postdict=postdict)
 
