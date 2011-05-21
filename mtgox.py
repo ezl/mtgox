@@ -133,14 +133,19 @@ class MtGox(object):
 
         """
 
-        api = "withdraw.php"
-        postdict = {
-            'name':   self.username,
-            'pass':   self.password,
-            'btca':   btca,
-            'amount': amount,
-            }
-        return self._curl_mtgox(api=api, postdict=postdict)
+        raise NotImplementedError, "MtGox hasn't implemented this."
+        # In [3]: m.send(btca="17kXoRWgeTRAyVhyJoMeZz5xHz98xPoiA", amount=1.98)
+        # Out[3]: {u'error': u'Not available yet'}
+
+
+#         api = "withdraw.php"
+#         postdict = {
+#             'name':   self.username,
+#             'pass':   self.password,
+#             'btca':   btca,
+#             'amount': amount,
+#             }
+#         return self._curl_mtgox(api=api, postdict=postdict)
 
     def _curl_mtgox(self, api, postdict=None, timeout=8):
         BASE_URL = "https://mtgox.com/code/"

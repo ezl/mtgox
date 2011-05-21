@@ -103,3 +103,10 @@ buy -- Buy bitcoins.
 sell -- Sell bitcoins.
 open_orders -- get your current working orders.
 cancel -- cancel an existing order. Required args: oid (order id) and order_type (1 for sell, 2 for buy).
+
+Note:
+send() method isn't implemented yet, even though the MtGox API page lists it.
+    In [3]: m.send(btca="17kXoRWgeTRAyVhyJoMeZz5xHz98xPoiA", amount=1.98)
+    Out[3]: {u'error': u'Not available yet'}
+Method raises NotImplementedError now.
+
