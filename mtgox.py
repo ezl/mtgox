@@ -3,8 +3,6 @@ import json
 
 # https://mtgox.com/support/tradeAPI
 
-# urllib2.Request
-
 class MtGox(object):
     def __init__(self, username=None, password=None):
         self.username = username
