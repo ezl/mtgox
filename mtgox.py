@@ -45,7 +45,7 @@ class MtGox(object):
         api = "getFunds.php"
         postdict = {
             'name':self.username,
-            'pass':self.password
+            'pass':self.password,
             }
         return self._curl_mtgox(api=api, postdict=postdict)
 
@@ -60,7 +60,7 @@ class MtGox(object):
         api = "buyBTC.php"
         postdict = {
             'name':   self.username,
-            'pass':   self.password
+            'pass':   self.password,
             'amount': amount,
             'price':  price,
             }
@@ -77,7 +77,7 @@ class MtGox(object):
         api = "sellBTC.php"
         postdict = {
             'name':   self.username,
-            'pass':   self.password
+            'pass':   self.password,
             'amount': amount,
             'price':  price,
             }
@@ -97,7 +97,7 @@ class MtGox(object):
         api = "getOrders.php"
         postdict = {
             'name':   self.username,
-            'pass':   self.password
+            'pass':   self.password,
             }
         return self._curl_mtgox(api=api, postdict=postdict)
 
@@ -113,7 +113,7 @@ class MtGox(object):
         api = "cancelOrder.php"
         postdict = {
             'name':   self.username,
-            'pass':   self.password
+            'pass':   self.password,
             'oid':    oid,
             'type':   order_type,
             }
@@ -136,7 +136,7 @@ class MtGox(object):
         api = "withdraw.php"
         postdict = {
             'name':   self.username,
-            'pass':   self.password
+            'pass':   self.password,
             'btca':   btca,
             'amount': amount,
             }
