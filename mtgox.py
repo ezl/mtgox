@@ -24,6 +24,18 @@ class MtGox(object):
         api = "data/getTrades.php"
         return self._curl_mtgox(api=api)
 
+    @property
+    def snapshot(self):
+        """Get current BBO
+        """
+        order_book = self.market_depth()
+        return dict(
+            bid=order_book['bids'][0][0],
+            ask=order_book['asks'][0][0],
+            size_bid=order_book['bids'][0][1],
+            size_ask=order_book['asks'][0][1],
+            )
+
 # Authentication required methods
     def authenticate(self, username, password):
         """Set MtGox authentication information"""
@@ -133,19 +145,18 @@ class MtGox(object):
 
         """
 
-        raise NotImplementedError, "MtGox hasn't implemented this."
         # In [3]: m.send(btca="17kXoRWgeTRAyVhyJoMeZz5xHz98xPoiA", amount=1.98)
         # Out[3]: {u'error': u'Not available yet'}
 
 
-#         api = "withdraw.php"
-#         postdict = {
-#             'name':   self.username,
-#             'pass':   self.password,
-#             'btca':   btca,
-#             'amount': amount,
-#             }
-#         return self._curl_mtgox(api=api, postdict=postdict)
+        api = "withdraw.php"
+        postdict = {
+            'name':   self.username,
+            'pass':   self.password,
+            'btca':   btca,
+            'amount': amount,
+            }
+        return self._curl_mtgox(api=api, postdict=postdict)
 
     def _curl_mtgox(self, api, postdict=None, timeout=8):
         BASE_URL = "https://mtgox.com/code/"
