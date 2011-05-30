@@ -20,7 +20,18 @@ class MtGox(object):
         return self._curl_mtgox(api=api)
 
     def recent_trades(self):
-        """Get recent trades"""
+        """Get recent trades
+
+           Returns
+           -------
+           A list of dicts:
+                 {u'amount': 60,
+                  u'date': 1306775375,
+                  u'price': 8.7401099999999996,
+                  u'tid': u'93842'},
+
+        """
+
         api = "data/getTrades.php"
         return self._curl_mtgox(api=api)
 
